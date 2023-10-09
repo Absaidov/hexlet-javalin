@@ -4,12 +4,16 @@ import io.javalin.Javalin;
 
 public class HelloWorld {
     public static void main(String[] args) {
-        // Создаем приложение
         var app = Javalin.create(config -> {
             config.plugins.enableDevLogging();
         });
-        // Описываем, что загрузится по адресу /
-        app.get("/", ctx -> ctx.result("Hello World"));
-        app.start(7070); // Стартуем веб-сервер
+
+        // Название параметров мы выбрали произвольно
+        app.get("/users/{id}/post/{postId}", ctx -> {
+//        app.get("/courses/{courseId}/lessons/{id}", ctx -> {
+            ctx.result("Users ID: " + ctx.pathParam("id") + "\n" +"Post ID: " +  ctx.pathParam("postId"));
+        });
+
+        app.start(7070);
     }
 }
