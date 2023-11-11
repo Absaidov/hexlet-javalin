@@ -1,0 +1,69 @@
+package org.example.hexlet;
+
+import org.example.hexlet.model.Course;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
+
+//import io.hexlet.User;
+
+import static java.sql.DriverManager.getConnection;
+
+public class CourseDAO {
+    private Connection connection;
+
+    public CourseDAO(Connection conn) {
+        this.connection = conn;
+    }
+
+    public void save(Course course) throws SQLException {
+        // Если пользователь новый, выполняем вставку
+        // Иначе обновляем
+        if (course.getId() == null) {
+            var sql = "INSERT INTO users (coursename, description) VALUES (?, ?)";
+            try (var preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, course.getName());
+                preparedStatement.setString(2, course.getDescription());
+                preparedStatement.executeUpdate();
+                var generatedKeys = preparedStatement.getGeneratedKeys();
+                // Если идентификатор сгенерирован, извлекаем его и добавляем в сохраненный объект
+                if (generatedKeys.next()) {
+                    // Обязательно устанавливаем id в сохраненный объект
+                    course.setId(generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("DB have not returned an id after saving an entity");
+                }
+            }
+        }
+    }
+
+    // Возвращается Optional<User>
+    // Это упрощает обработку ситуаций, когда в базе ничего не найдено
+//    public Optional<User> find(Long id) throws SQLException {
+//        var sql = "SELECT * FROM users WHERE id = ?";
+//        try (var stmt = connection.prepareStatement(sql)) {
+//            stmt.setLong(1, id);
+//            var resultSet = stmt.executeQuery();
+//            if (resultSet.next()) {
+//                var username = resultSet.getString("username");
+//                var phone = resultSet.getString("phone");
+//                var user = new User(username, phone);
+//                user.setId(id);
+//                return Optional.of(user);
+//            }
+//            return Optional.empty();
+//        }
+//    }
+//    public void delete(Long id) throws SQLException {
+//        var sql = "DELETE FROM users WHERE id = ?";
+//        try (var preparedStatement = connection.prepareStatement(sql);) {
+//            preparedStatement.setInt(1, Math.toIntExact(id));
+//            preparedStatement.executeUpdate();
+//            System.out.println("Data deleted Successfully");
+//        }
+//    }
+}
+
