@@ -1,6 +1,6 @@
-package org.example.hexlet.dto.courses;
+package exercise.dto.courses;
 
-import org.example.hexlet.model.Course;
+import exercise.model.Course;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-@import org.example.hexlet.dto.courses.CoursesPage
+@import exercise.dto.courses.CoursesPage
 @param CoursesPage page
 
 <html>
@@ -6,7 +6,7 @@
         <title>Хекслет</title>
     </head>
     <body>
-        <h1>${page.getHeader()}</h1>
+        <h1>HEADER</h1>
         @if(page.getCourses().isEmpty())
             <p>Пока не добавлено ни одного курса</p>
         @else
