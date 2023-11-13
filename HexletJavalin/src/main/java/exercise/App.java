@@ -20,7 +20,7 @@ public final class App {
         });
 
         // BEGIN
-        app.get("/jte/courses/{id}", ctx -> {
+        app.get("/courses/{id}", ctx -> {
             var id = ctx.pathParamAsClass("id", Long.class).get();
             Course course = COURSES.stream()
                     .filter(u -> id.equals(u.getId()))
@@ -32,13 +32,17 @@ public final class App {
             }
 
             var page = new CoursePage(course);
-            ctx.render("/jte/courses/course.jte", Collections.singletonMap("page", page));
+            ctx.render("courses/course.jte", Collections.singletonMap("page", page));
         });
 
-        app.get("/jte/courses", ctx -> {
+        app.get("/courses", ctx -> {
             var page = new CoursesPage(COURSES);
             ctx.render("courses/courses.jte", Collections.singletonMap("page", page));
 
+        });
+
+        app.get("/", ctx -> {
+            ctx.render("index.jte");
         });
         // END
         return app;
