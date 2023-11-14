@@ -41,8 +41,8 @@ public final class App {
 
         });
 
-        app.get("/", ctx -> {
-            ctx.render("index.jte");
+        app.get("/users", ctx -> {
+            ctx.render("page.jte");
         });
         // END
         return app;
