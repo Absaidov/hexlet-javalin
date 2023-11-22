@@ -42,7 +42,7 @@ public final class App {
         });
 
         app.get("/users", ctx -> {
-            ctx.render("page.jte");
+            ctx.render("layout/page.jte");
         });
         // END
         return app;
